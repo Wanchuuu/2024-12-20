@@ -1,0 +1,259 @@
+:root {
+    --base: #D56B99;          /* Base pink color */
+    --base-light: #E0A5C4;    /* Lighter pink for highlights */
+    --base-dark: #C25785;     /* Darker pink for shadows */
+    --shadow: #A04B6B;        /* Deep pink/purple for shadow effect */
+    --letter: #FFFFFF;        /* White color for the letter paper */
+    --gray-shadow: #B0B0B0;    /* Gray color for the paper's shadow */
+}
+* {
+    border: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f7f7; /* Light background to help with visibility */
+}
+
+.content {
+    position: relative;
+    perspective: 600px;
+}
+
+.shadow {
+    position: absolute;
+    width: 200px;
+    height: 1px;
+    background: transparent;
+    border-radius: 30%;
+    box-shadow: 50px 100px 10px 5px #fce4ec; /* Soft pink shadow */
+}
+
+.letter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 370px;  /* Default width for larger screens */
+    height: 520px; /* Default height for larger screens */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 15;
+    border-radius: 2px;
+    background: var(--letter);
+    box-shadow: 0px 1px 7px -2px var(--gray-shadow); /* Change shadow to gray */
+    opacity: 0;  /* Initially hidden */
+    transform: translate(-50%, -50%) scale(0); /* Start hidden and scaled down, centered */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition when opening */
+}
+
+@media (max-width: 600px) {
+    .letter {
+        width: 90%; /* Set the width to 90% of the viewport */
+        height: auto; /* Automatically adjust height */
+        padding: 20px; /* Add some padding for better readability */
+    }
+}
+.letter.open {
+    opacity: 1;  /* Make the letter visible when open */
+    transform: translate(-50%, -50%) scale(1); /* Reset scaling and keep it centered */
+}
+
+.letter .body {
+    position: relative; /* Make sure the body is positioned relative to its container */
+    width: 100%;  /* Full width of the letter */
+    height: 100%; /* Full height of the letter */
+    display: flex;
+    flex-direction: column;
+    padding: 35px; /* Padding to avoid text being too close to edges */
+}
+
+.letter .body .close {
+    position: absolute;
+    right: 10px; /* Initial position of close button */
+    top: 10px;
+    font-size: 30px;
+    font-family: 'Manjari', sans-serif;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: right 0.5s ease; /* Smooth transition when moving the close button */
+    text-align: left;
+}
+
+.letter .body .message {
+    position: absolute; /* Position it absolutely inside the letter body */
+    top: 20px; /* Set the distance from the top of the letter */
+    left: 20px; /* Set the distance from the left of the letter */
+    font-size: 12px;
+    font-weight: 900;
+    text-align: left; /* Align text to the left */
+    font-family: 'Great Vibes', cursive;
+    font-family: "Delius", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: rgb(54, 53, 53);
+    line-height: 1.5; /* Adjust line height for spacing */
+    
+}
+
+.envelope {
+    position: relative;
+    width: 300px;
+    height: 180px;
+    background: radial-gradient(circle, #fce4ec 0%, #f7cad7 50%, #f6a9c5 100%); /* Soft pink gradient */
+    cursor: pointer;
+    transform-origin: top;  /* Envelope opens from the top */
+}
+
+.envelope::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    border-top: 115px solid #f6a9c5; /* Light pink top flap */
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    box-sizing: border-box;
+    z-index: 30;
+    transform-origin: top;
+    transform: rotateX(0deg);  /* Ensure the flap starts flat */
+}
+
+.envelope::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 300px;
+    height: 180px;
+    z-index: 25;
+    background: 
+      linear-gradient(30deg, var(--base-dark) 47%, var(--shadow) 50%, var(--base) 50%) 150px 90px/ 150px 90px no-repeat,
+      linear-gradient(31deg, var(--base) 49%, var(--shadow) 50%, transparent 50%) 0px 0px/ 152px 90px no-repeat,
+      linear-gradient(150deg, var(--base) 50%, var(--shadow) 50%, var(--base-dark) 53%) 0px 90px/ 151px 90px no-repeat,
+      linear-gradient(148.7deg, transparent 50%, var(--shadow) 50%, var(--base) 51%) 150px 0px/ 150px 90px no-repeat;
+}
+
+.falling-sunflowers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.sunflower {
+    position: absolute;
+    width: 40px; /* Adjust size of sunflower */
+    height: 40px;
+    background-image: url('petals.gif'); /* Add your sunflower image path here */
+    background-image: url('sunflower_falls.png'); /* Add your sunflower image path here */
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg); /* Adjust rotation for a swaying effect */
+        opacity: 0.8;
+    }
+}
+
+.falling-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5; /* Layering on top of background, but under envelope */
+}
+
+.falling-image {
+    position: absolute;
+    width: 50px; /* Default image size */
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    animation: fallImages linear infinite;
+}
+
+@keyframes fallImages {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+
+/* Pig animation */
+.falling-character {
+    position: absolute;
+    bottom: 20px;  /* Adjust to move the pig higher or lower */
+    left: 0%;  /* Start from the left */
+    background-image: url('pig.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 25px;  /* Adjust the width */
+    height: 25px; /* Adjust the height */
+    z-index: 10;
+    animation: walkAcross 10s linear infinite; /* Make the animation linear */
+}
+
+@keyframes walkAcross {
+    0% {
+        left: 5%;  /* Start from the left */
+        transform: scaleX(1); /* Facing right */
+    }
+    50% {
+        left: 90%;  /* Move to the right */
+        transform: scaleX(1); /* Still facing right */
+    }
+    51% {
+        left: 90%;  /* At the right side */
+        transform: scaleX(-1); /* Immediately mirror to face left */
+    }
+    100% {
+        left: 0%;  /* Move back to the left */
+        transform: scaleX(-1); /* Continue facing left */
+    }
+}
+
+h1 {
+    font-family: "Sour Gummy", sans-serif;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+.audio-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
